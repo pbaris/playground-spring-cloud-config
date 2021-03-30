@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: composite
+  cloud:
+    config:
+      name: nmv
+      label: latest
+      profile: production
+      server:
+        bootstrap: true
+        composite:
+          - type: jdbc
+            order: 0
+            sql: SELECT `KEY`, `VALUE` FROM `PROPERTIES` WHERE `APPLICATION`=? AND `PROFILE`=? AND `LABEL`=?;
+  datasource:
+    url: jdbc:mysql://192.168.3.15:3306/nmv_config
+    username: root
+    password: mb955213a1e
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 5000
